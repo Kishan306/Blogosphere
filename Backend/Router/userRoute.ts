@@ -20,26 +20,32 @@ authRoute.post("signup", async (c) => {
   
     const body = await c.req.json();
   
-    // Uploading the user in the database 
-    const user = await prisma.user.create({
-      data:{
-        email:body.email,
-        password: body.password,
-        name:body.name
-      }
-    })
-  
-    if (!user) {
+    try {
+      // Uploading the user in the database 
+      const user = await prisma.user.create({
+        data:{
+          email:body.email,
+          password: body.password,
+          name:body.name
+        }
+      })
+        if (!user) {
+          c.status(403);
+
+          return c.json({
+            Error:"Error While Signing Up"
+          })
+        }
+        const token = await sign({id:user.id},c.env.JWT_SECRET);
+        return c.json({
+          token:token
+        })
+    } catch (error) {
+      c.status(411);
       return c.json({
-        Error:"Error While Signing Up"
+        Message:"Invalid Data or User Already Exists"
       })
     }
-    const token = await sign({id:user.id},c.env.JWT_SECRET);
-  
-    return c.json({
-      token:token
-    })
-  
   });
   
   authRoute.post("signin", async (c) => {
@@ -63,12 +69,12 @@ authRoute.post("signup", async (c) => {
         });
       }
       const token = await sign({ id: user.id }, c.env.JWT_SECRET);
-  
+      c.status(200);
       return c.json({
         token: token,
       });
     } catch (e) {
-      console.log(e);
+      c.status(411);
       return c.json({
         mes: "Error Occured",
       });

@@ -5,7 +5,6 @@ dist
 .dev.vars
 wrangler.toml
 
-
 # Change them to your taste:
 package-lock.json
 yarn.lock
