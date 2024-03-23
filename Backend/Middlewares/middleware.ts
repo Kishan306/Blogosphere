@@ -8,7 +8,6 @@ const authMiddleware = new Hono<{
 }>();
 
 authMiddleware.use('/blog/*',async (c,next)=>{
-  
     const header = c.req.header('Authorization') || " ";
     const token = header.split(' ')[1];
     const payload = await Jwt.verify(token,c.env.JWT_SECRET);
