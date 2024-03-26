@@ -56,6 +56,8 @@ blogRoute.put("/", async (c) => {
   });
   prisma.$extends(withAccelerate());
   const userId = c.get("jwtPayload");
+  console.log(userId);
+  console.log(body.id)
 
   try {
     await prisma.post.update({
@@ -70,6 +72,7 @@ blogRoute.put("/", async (c) => {
     });
     return c.text("Updated Blog");
   } catch (error) {
+    console.log(error)
     return c.text("Blog Not Found");
   }
 });
