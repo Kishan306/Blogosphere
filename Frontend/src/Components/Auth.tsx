@@ -1,29 +1,29 @@
 import { ChangeEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { SignupInput } from "@100xdevs/medium-common";
+import { Link, useNavigate,  } from "react-router-dom";
+import { SignupInput } from "@zuxxer/medium-common";
 import { EyeSvg } from "../Resources/SVG";
-// import axios from "axios";
-// import { BACKEND_URL } from "../config";
+import axios from "axios";
+import { Backend_URL } from "../config";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState<SignupInput>({
     name: "",
-    username: "",
-    password: "",
+    email: "",
+    password: ""
   });
 
-  // async function sendRequest() {
-  //     try {
-  //         const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`, postInputs);
-  //         const jwt = response.data;
-  //         localStorage.setItem("token", jwt);
-  //         navigate("/blogs");
-  //     } catch(e) {
-  //         alert("Error while signing up")
-  //         // alert the user here that the request failed
-  //     }
-  // }
+  async function sendRequest() {
+      try {
+          const response = await axios.post(`${Backend_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`, postInputs);
+          const jwt = response.data;
+          
+          localStorage.setItem("token", jwt.token);
+          navigate("/blogs");
+      } catch(e) {
+          alert("Error while signing up")
+      }
+  }
 
   return (
     <div className="flex flex-col justify-center h-screen">
@@ -47,7 +47,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
             {type === "signup" ? (
               <LabelledInput
                 label="Name"
-                placeholder="Harkirat Singh..."
+                placeholder="John Doe..."
                 onChange={(e) => {
                   setPostInputs({
                     ...postInputs,
@@ -58,12 +58,12 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
             ) : null}
             <LabelledInput
               label="Email"
-              placeholder="harkirat@gmail.com"
+              placeholder="Johndoe@gmail.com"
               type="email"
               onChange={(e) => {
                 setPostInputs({
                   ...postInputs,
-                  username: e.target.value,
+                  email: e.target.value,
                 });
               }}
             />
@@ -79,9 +79,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
               }}
             />
             <button
-              onClick={() => {
-                console.log("Hello");
-              }}
+              onClick={sendRequest}
               type="button"
               className="mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             >
@@ -114,19 +112,21 @@ function LabelledInput({
       <label className="block pt-4 mb-2 text-sm font-semibold text-black">
         {label}
       </label>
-      <div className="flex items-center gap-2 border border-gray-300 text-gray-900 rounded-lg bg-gray-50  p-2.5 focus:ring-blue-500 focus:border-blue-500" >
+      <div className="flex items-center gap-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50" >
         <input
           onChange={onChange}
           type={view}
           id="first_name"
-          className="w-full bg-gray-50 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          className="w-full bg-gray-50 focus:outline-none  p-1.5 rounded m-1"
           placeholder={placeholder}
           required
         />
         {type==="password"?
-            <button onClick={()=>{
+            <button
+            className="m-1" 
+            onClick={()=>{
                 Setview("text");
-                setTimeout(()=>{Setview("password")},500)
+                setTimeout(()=>{Setview("password")},1000)
             }}>
                 <EyeSvg/>
             </button>

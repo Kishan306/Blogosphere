@@ -18,12 +18,13 @@ authRoute.post("signup", async (c) => {
   prisma.$extends(withAccelerate());
 
   const body = await c.req.json();
+  console.log(body);
 
   const { success } = userSignup.safeParse(body);
   if (!success) {
     c.status(411);
     return c.json({
-      Message: "Invalid Data",
+      Message: "Invalid Data sgfasdgf",
     });
   }
 

@@ -16,6 +16,10 @@ const Routes =createBrowserRouter([
   {
     path:'/blog/:id',
     element:<Blog/>
+  },
+  {
+    path:'/blogs',
+    element:<Blog/>
   }
 ])
 function App() {
