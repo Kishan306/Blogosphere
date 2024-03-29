@@ -40,23 +40,23 @@ blogRoute.get("/bulk", async (c) => {
   try {
     const blogs = await prisma.post.findMany({
       select: {
-          content: true,
-          title: true,
-          id: true,
-          author: {
-              select: {
-                  name: true
-              }
-          }
-      }
-  });
+        content: true,
+        title: true,
+        id: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
     return c.json({
       blogs: blogs,
     });
   } catch (error) {
     return c.json({
-      error:"Error while fetching blogs"
-    })
+      error: "Error while fetching blogs",
+    });
   }
 });
 
@@ -68,7 +68,7 @@ blogRoute.put("/", async (c) => {
   prisma.$extends(withAccelerate());
   const userId = c.get("jwtPayload");
   console.log(userId);
-  console.log(body.id)
+  console.log(body.id);
 
   try {
     await prisma.post.update({
@@ -83,7 +83,7 @@ blogRoute.put("/", async (c) => {
     });
     return c.text("Updated Blog");
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return c.text("Blog Not Found");
   }
 });
@@ -97,6 +97,16 @@ blogRoute.get("/:id", async (c) => {
   const blog = await prisma.post.findUnique({
     where: {
       id: c.req.param("id"),
+    },
+    select: {
+      content: true,
+      title: true,
+      id: true,
+      author: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
   return c.json(blog);
