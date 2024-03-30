@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import Signup from "./Pages/Signup"
 import Signin from "./Pages/Signin"
-import Blog from "./Pages/Blog"
+import {Blog} from "./Pages/Blog"
 import { Publish } from "./Pages/Publish"
 import { Blogs } from "./Pages/Blogs"
 
