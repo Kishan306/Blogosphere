@@ -18,7 +18,6 @@ authRoute.post("signup", async (c) => {
   prisma.$extends(withAccelerate());
 
   const body = await c.req.json();
-  console.log(body);
 
   const { success } = userSignup.safeParse(body);
   if (!success) {
