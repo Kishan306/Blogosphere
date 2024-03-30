@@ -8,6 +8,9 @@ import { Blogs } from "./Pages/Blogs"
 
 const Routes =createBrowserRouter([
   {
+    path:'',
+    element:<Signup/>
+  },{
     path:'/signup',
     element:<Signup/>
   },
